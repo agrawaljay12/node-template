@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import  User from '../../../models/index.js';
+import  User from '../../../models/user.js';
 import {handleGetAllUsers ,handleDeleteUserById ,handleCreateUser ,handleUpdateUserById ,handleGetUserById} from '../../../controller/user.js';
 
 // get all users
@@ -18,4 +18,4 @@ router.put('/:id',handleUpdateUserById);
 // get particular user by id
 router.get('/:id',handleGetUserById);
 
-module.exports = router;
+export default router;

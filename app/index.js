@@ -2,6 +2,7 @@ import express from "express";
 const app = express();
 import connection from '../config/connection.js';
 import router from "../routes/index.js"
+import cors from "cors";
 
 // connnection to mongodb
 connection();
@@ -10,7 +11,7 @@ connection();
 app.use(cors());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use(morgan("dev"))
+// app.use(morgan("dev"))
 
 // register routes of application
 router(app);
