@@ -10,8 +10,6 @@ connection();
 
 // schema for user
 
-
-
 // routes 
 app.use(express.json());
 
