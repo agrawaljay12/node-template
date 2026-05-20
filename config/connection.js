@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const connection = async () => {
     return mongoose.connect("mongodb://localhost:27017/")
@@ -20,4 +20,4 @@ const connection = async () => {
         // }
 }
 
-module.exports = connection;
+export default connection;

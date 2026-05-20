@@ -1,16 +1,13 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const User = require('../../../models/index.js');
-const {handleGetAllUsers ,handleDeleteUserById ,handleCreateUser ,handleUpdateUserById ,handleGetUserById} = require ('../../../controller/user.js');
+import  User from '../../../models/index.js';
+import {handleGetAllUsers ,handleDeleteUserById ,handleCreateUser ,handleUpdateUserById ,handleGetUserById} from '../../../controller/user.js';
 
 // get all users
-
 router.get('/', handleGetAllUsers);
 
 // delete user by id 
-
 router.delete('/:id',handleDeleteUserById);
-
 
 //append user to the file
 router.post('/append', handleCreateUser);

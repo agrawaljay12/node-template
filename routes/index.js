@@ -1,7 +1,5 @@
 // register the all routes  of application 
-
-const userrouter = require("./version/user");
-
+import userrouter from "./version/user";
 
 const registerroutes = (app) =>{
 

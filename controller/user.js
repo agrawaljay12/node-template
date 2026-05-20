@@ -1,5 +1,4 @@
-const user = require('../models/index.js');
-
+import user from '../models/user.js';
 
 // get all users
 const handleGetAllUsers = async (req, res) => {
@@ -67,4 +66,4 @@ const handleGetUserById = async (req,res) =>{
         return res.status(500).json({ error: "Internal Server Error" });
     }   
 }
-module.exports = {handleGetAllUsers ,handleDeleteUserById,handleCreateUser ,handleUpdateUserById,handleGetUserById};
+export{handleGetAllUsers ,handleDeleteUserById,handleCreateUser ,handleUpdateUserById,handleGetUserById};

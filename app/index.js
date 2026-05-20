@@ -1,7 +1,7 @@
-const express = require('express');
+import express from "express";
 const app = express();
-const connection = require('../config/connection.js');
-const router = require("../routes/index.js")
+import connection from '../config/connection.js';
+import router from "../routes/index.js"
 
 // connnection to mongodb
 connection();
@@ -15,4 +15,4 @@ app.use(morgan("dev"))
 // register routes of application
 router(app);
 
-module.exports = app;
+export default app;
