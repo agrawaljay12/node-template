@@ -217,26 +217,37 @@ Create a `.env` file in the root directory.
 ## Example
 
 ```env
-PORT=5000
-NODE_ENV=development
+PORT = 5000
 
-MONGO_URI=
-DATABASE_URL=
+# Environment variables for JWT configuration for authentication and authorization purposes 
+JWT_SECRET_KEY=JWT_SECRET_KEY
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=120
+REFRESH_TOKEN_EXPIRE_DAYS=7
 
-JWT_SECRET=
-JWT_EXPIRES_IN=7d
+# mail configuration 
+MAIL_USERNAME=MAIL_USERNAME
+MAIL_PASSWORD=MAIL_PASSWORD
+MAIL_PORT=587
+MAIL_SERVER=smtp.gmail.com
+MAIL_TLS=True
+MAIL_SSL=False
 
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+# razorpay configuration 
+RAZORPAY_API_KEY = RAZORPAY_API_KEY
+RAZORPAY_SECRET_KEY = RAZORPAY_SECRET_KEY
 
-RESEND_API_KEY=
+# clodinary confirguration for uploading file 
+CLOUDINARY_API_KEY = CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET = CLOUDINARY_API_SECRET
+CLOUDINARY_CLOUD_NAME = CLOUDINARY_API_SECRET
 
-REDIS_URL=
+# sendgrid api key
+SENDGRID_API_KEY=SENDGRID_API_KEY
+RESEND_API_KEY = RESEND_API_KEY 
 
-EMAIL_FROM=
-
-FRONTEND_URL=
+# for mongodb atlas url connecting
+MONGO_URI = MONGO_URI
 ```
 
 ---
@@ -265,8 +276,8 @@ Add the following scripts in `package.json`.
 
 ```json
 "scripts": {
-  "dev": "nodemon src/server.js",
-  "start": "node src/server.js",
+  "dev": "nodemon app/app.js",
+  "start": "node app/app.js",
   "test": "jest",
   "lint": "eslint .",
   "format": "prettier --write ."
@@ -468,10 +479,6 @@ Create a `.gitignore` file.
 ```gitignore
 node_modules/
 .env
-logs/
-uploads/
-dist/
-coverage/
 ```
 
 ---
@@ -481,7 +488,6 @@ coverage/
 ```text
 Routes → Controllers → Services → Database
 ```
-
 ---
 
 # 📚 API Structure Example
@@ -550,26 +556,8 @@ Before deployment, ensure:
 
 ---
 
-# 💡 Best Practices
-
-* Use TypeScript for scalability
-* Keep controllers clean
-* Move business logic to services
-* Use centralized error handling
-* Use validation for all inputs
-* Never expose secrets in GitHub
-* Use environment variables properly
-* Add API documentation
-* Write reusable utility functions
-
----
-
 # 📄 License
 
 This project is open-source and free to use.
 
 ---
-
-# 👨‍💻 Author
-
-Built for scalable backend development, hackathons, and production-ready projects.
