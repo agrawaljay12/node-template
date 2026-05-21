@@ -3,19 +3,29 @@ const router = express.Router();
 import  User from '../../../models/user.js';
 import {handleGetAllUsers ,handleDeleteUserById ,handleCreateUser ,handleUpdateUserById ,handleGetUserById} from '../../../controller/user.js';
 
-// get all users
+// URL:http://localhost:8000/api/v1/auth/fetch_all
+// Method:get
+// description:fetch all user
 router.get('/', handleGetAllUsers);
 
-// delete user by id 
-router.delete('/:id',handleDeleteUserById);
+// URL:http://localhost:8000/api/v1/auth/delete/:id
+// Method:delete
+// description: delete user by id
+router.delete('/delete/:id',handleDeleteUserById);
 
-//append user to the file
-router.post('/append', handleCreateUser);
+// URL:http://localhost:8000/api/v1/auth/create
+// Method:post
+// description:Create new user
+router.post('/create', handleCreateUser);
 
-// update user by id 
-router.put('/:id',handleUpdateUserById);
+// URL:http://localhost:8000/api/v1/auth/update/:id
+// Method:put
+// description: update the user by id
+router.put('/update/:id',handleUpdateUserById);
 
-// get particular user by id
-router.get('/:id',handleGetUserById);
+// URL:http://localhost:8000/api/v1/auth/fetch/:id
+// Method:get   
+// description:fetch the user by id
+router.get('/fetch/:id',handleGetUserById);
 
 export default router;

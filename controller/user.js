@@ -22,10 +22,19 @@ const handleDeleteUserById = async(req,res) =>{
 }
 // create user 
 const handleCreateUser = async (req,res)=>{
+    
     const body = req.body;
+
     if(!body.name || !body.email || !body.age){
         return res.status(400).json({error: "all fields are required"});
     }
+    // check the already email exist or not
+    exist_user = user.findOne({"email":body.email});
+    
+    if (exist_user("email")!=body.email){
+        return res.status(400).json({error:"Email already exist please try new one"})
+    } 
+
     try{
         const result = await user.create({
             name: body.name,
