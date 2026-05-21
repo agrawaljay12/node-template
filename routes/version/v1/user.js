@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import  User from '../../../models/user.js';
-import {handleGetAllUsers ,handleDeleteUserById ,handleCreateUser ,handleUpdateUserById ,handleGetUserById} from '../../../controller/user.js';
+import {handleGetAllUsers ,handleDeleteUserById ,handleCreateUser ,handleUpdateUserById ,handleGetUserById, handlelogin} from '../../../controller/user.js';
 
 // URL:http://localhost:8000/api/v1/auth/fetch_all
 // Method:get
@@ -17,6 +17,11 @@ router.delete('/delete/:id',handleDeleteUserById);
 // Method:post
 // description:Create new user
 router.post('/create', handleCreateUser);
+
+// URL:http://localhost:8000/api/v1/auth/login
+// Method:post
+// description: login user
+router.post('/login', handlelogin);
 
 // URL:http://localhost:8000/api/v1/auth/update/:id
 // Method:put
