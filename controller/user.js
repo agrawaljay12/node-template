@@ -109,8 +109,33 @@ const handlelogin = async (req,res)=>{
 // update user by id
 const handleUpdateUserById = async (req,res) =>{
   try{
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    return res.status(200).json({message: "User updated successfully", user});
+    const id = req.params.id;
+    const body = req.body;
+    
+    if(!id){
+             return res.status(400).json({error:"User Id is required"});
+    }
+
+    update_data ={};
+
+    
+    const existuser = await user.findOne({_id:id});
+    
+    if (!existuser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+    const result = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    
+    if(!result){
+        return res.status(400).json({error:"No data is update"});
+    }
+
+    return res.status(200).json({
+        message: "User updated successfully", 
+        data: result
+    });
+
   }   
   catch (error) {
         return res.status(500).json({ error: "Internal Server Error" });
