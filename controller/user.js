@@ -1,5 +1,7 @@
 import user from '../models/user.js';
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import {create_token} from "../middleware/auth.js"
 
 // get all users
 const handleGetAllUsers = async (req, res) => {
@@ -68,37 +70,40 @@ const handleCreateUser = async (req,res)=>{
     }
 }
 
-// handle login
+// -----------------handle login-------------------------
 const handlelogin = async (req,res)=>{
     try{
+        // get the data from request body
         const {email, password} = req.body;
 
+        // validate email & password field
         if(!email || !password){
             return res.status(400).json({error:"all field are required"});
         }
 
+        // check the exist user or not  
         const existuser = await user.findOne({"email":email});
 
+        // if user is not found
         if(!existuser){
             return res.status(404).json({error:"User not found"});
         }
 
+        // compare plain password, hash password
         const hash_password = await bcrypt.compare(password, existuser.password);
 
+        // if password is not match then raise Error
         if(!hash_password){
             return res.status(401).json({error:"password is not match with hash password"});
         }
+        
+        // generate the token 
+        const token = create_token(existuser);
 
-        const result = {
-            id: existuser._id,
-            name:existuser.name,
-            email:existuser.email,
-            age: existuser.age
-        }
-
+        // return the payload token
         return res.status(200).json({
             message:"user logged in",
-            data:result
+            data:token 
         });
 
     }catch{
