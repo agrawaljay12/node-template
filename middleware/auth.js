@@ -1,6 +1,7 @@
 import  jwt from "jsonwebtoken";
 import express from "express";
 // import {handlelogin} from "../controller/user.js"
+import crypto from "crypto";
 
 const app = express();
 
@@ -8,18 +9,23 @@ const app = express();
 let expire_time  = process.env.ACCESS_TOKEN_EXPIRE_MINUTES;
 let JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
-const create_token = (user)=>{
+// const token = crypto.randomBytes(32).toString('hex');
+// console.log(token);
+
+const create_token = (data)=>{
     try{
         
         let payload = {
-            id:user._id,
-            name:user.name,
-            email:user.email
+            id:data._id,
+            name:data.name,
+            email:data.email
         };
         
-        const token = jwt.sign(payload, JWT_SECRET_KEY, {
+        const token = jwt.sign(data, JWT_SECRET_KEY, {
             expiresIn: expire_time
         })
+
+        console.log(token);
 
         return token
     }

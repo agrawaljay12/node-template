@@ -1,7 +1,8 @@
 import user from '../models/user.js';
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 import {create_token} from "../middleware/auth.js"
+
 
 // get all users
 const handleGetAllUsers = async (req, res) => {
@@ -48,10 +49,12 @@ const handleCreateUser = async (req,res)=>{
         // check the already email exist or not
         const exist_user = await user.findOne({"email":body.email});
         
+        // check the user email already exist or not if exist raise error
         if (exist_user){
             return res.status(400).json({error:"Email already exist please try new one"})
         } 
 
+        // store the plain password in password hashing
         const hash_password = await bcrypt.hash(body.password,10);
 
         const result = await user.create({
@@ -97,13 +100,23 @@ const handlelogin = async (req,res)=>{
             return res.status(401).json({error:"password is not match with hash password"});
         }
         
+        const token_data = {
+            id:existuser._id,
+            name:existuser.name,
+            email:existuser.email,
+        }
+
         // generate the token 
-        const token = create_token(existuser);
+        const token = create_token(token_data);
+        // const token = jwt.sign({token_data},process.env.JWT_SECRET_KEY,{expiresIn:process.env.ACCESS_TOKEN_EXPIRE_MINUTES})
 
         // return the payload token
         return res.status(200).json({
             message:"user logged in",
-            data:token 
+            data:{
+              access_toke:token,
+              result:token_data
+            } 
         });
 
     }catch{
