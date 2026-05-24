@@ -10,6 +10,7 @@ const app = express();
 // load the jwt JWT_SECRET_KEY, expire_time
 let expire_time  = process.env.ACCESS_TOKEN_EXPIRE_MINUTES;
 let JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+let refresh_token_expire = process.env.REFRESH_TOKEN_EXPIRE_DAYS
 
 // const token = crypto.randomBytes(32).toString('hex');
 // console.log(token);
@@ -56,4 +57,21 @@ const verifytoken =(req,res,next)=>{
 
 }
 
-export {create_token,verifytoken};
+const refresh_token = (data)=>{
+    try{
+        
+        const token = jwt.sign(data, JWT_SECRET_KEY, {
+            expiresIn: expire_time
+        })
+
+        return token
+    }
+    catch(error){
+           
+        console.log(error);
+
+        throw new Error("Token creation failed");
+    }
+}
+
+export {create_token,verifytoken,refresh_token};

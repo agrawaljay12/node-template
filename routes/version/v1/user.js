@@ -2,11 +2,13 @@ import express from 'express';
 const router = express.Router();
 import  User from '../../../models/user.js';
 import {handleGetAllUsers ,handleDeleteUserById ,handleCreateUser ,handleUpdateUserById ,handleGetUserById, handlelogin} from '../../../controller/user.js';
+import get_required_roles from "../../../middleware/dependency.js";
+import { verifytoken } from '../../../middleware/auth.js';
 
 // URL:http://localhost:8000/api/v1/auth/fetch_all
 // Method:get
 // description:fetch all user
-router.get('/', handleGetAllUsers);
+router.get('/fetch_all', verifytoken,get_required_roles("admin"),handleGetAllUsers);
 
 // URL:http://localhost:8000/api/v1/auth/delete/:id
 // Method:delete

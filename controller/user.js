@@ -1,7 +1,7 @@
 import user from '../models/user.js';
 import bcrypt from "bcrypt";
 // import jwt from "jsonwebtoken";
-import {create_token} from "../middleware/auth.js"
+import {create_token,refresh_token} from "../middleware/auth.js"
 
 
 // get all users
@@ -104,17 +104,21 @@ const handlelogin = async (req,res)=>{
             id:existuser._id,
             name:existuser.name,
             email:existuser.email,
+            role:existuser.role
         }
 
         // generate the token 
-        const token = create_token(token_data);
+        const access_token = create_token(token_data);
+        const token = refresh_token(token_data);
         
         // return the payload token
         return res.status(200).json({
             message:"user logged in",
             data:{
-              access_toke:token,
-              result:token_data
+              access_token:access_token,
+              refresh_token: token,
+              result:token_data,
+              token_type:"Bearer"
             } 
         });
 
