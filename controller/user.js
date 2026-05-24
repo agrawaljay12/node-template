@@ -108,8 +108,7 @@ const handlelogin = async (req,res)=>{
 
         // generate the token 
         const token = create_token(token_data);
-        // const token = jwt.sign({token_data},process.env.JWT_SECRET_KEY,{expiresIn:process.env.ACCESS_TOKEN_EXPIRE_MINUTES})
-
+        
         // return the payload token
         return res.status(200).json({
             message:"user logged in",

@@ -1,7 +1,9 @@
 import  jwt from "jsonwebtoken";
 import express from "express";
-// import {handlelogin} from "../controller/user.js"
 import crypto from "crypto";
+import { configDotenv } from "dotenv";
+
+configDotenv();
 
 const app = express();
 
@@ -15,29 +17,24 @@ let JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 const create_token = (data)=>{
     try{
         
-        let payload = {
-            id:data._id,
-            name:data.name,
-            email:data.email
-        };
-        
         const token = jwt.sign(data, JWT_SECRET_KEY, {
             expiresIn: expire_time
         })
 
-        console.log(token);
-
         return token
     }
     catch(error){
-        return res.status(500).json({error:"Internal Server Error"});
+           
+        console.log(error);
+
+        throw new Error("Token creation failed");
     }
 }
 
 const verifytoken =(req,res,next)=>{
     try{
 
-        const  token = req.header.authorization;
+        const  token = req.headers.authorization;
 
         if(!token || !token.startsWith("Bearer")){
             return res.status(401).json({error:"Acess denied || Invalid token"})
