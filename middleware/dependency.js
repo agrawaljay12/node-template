@@ -56,15 +56,37 @@ const get_required_roles = (...roles) => {
 
     return (req, res, next) => {
 
-        if (!roles.includes(req.user.role)) {
+        try {
 
-            return res.status(403).json({
-                message: "Forbidden"
+            // check user exists
+            if (!req.user) {
+
+                return res.status(401).json({
+                    success: false,
+                    message: "Unauthorized"
+                });
+            }
+
+            // check role
+            if (!roles.includes(req.user.role)) {
+
+                return res.status(403).json({
+                    success: false,
+                    message: "Access denied"
+                });
+            }
+
+            next();
+
+        } catch (error) {
+
+            return res.status(500).json({
+                success: false,
+                message: "Internal Server Error"
             });
         }
-
-        next();
     };
 };
+
 
 export default get_required_roles;

@@ -32,30 +32,50 @@ const create_token = (data)=>{
     }
 }
 
-const verifytoken =(req,res,next)=>{
-    try{
+const verifytoken = (req, res, next) => {
 
-        const  token = req.headers.authorization;
+    try {
 
-        if(!token || !token.startsWith("Bearer")){
-            return res.status(401).json({error:"Acess denied || Invalid token"})
+        // get authorization header
+        const authHeader = req.headers.authorization;
+
+        // check token exists
+        if (
+            !authHeader ||
+            !authHeader.startsWith("Bearer ")
+        ) {
+
+            return res.status(401).json({
+                success: false,
+                message: "Access denied || Invalid token"
+            });
         }
 
-        const decode_token = jwt.verify(token,JWT_SECRET_KEY);
+        // extract token
+        const token = authHeader.split(" ")[1];
 
-        if(!decode_token){
-            return res.status(401).json({error:"Invalid token"})
-        }
+        // verify token
+        const decodedToken = jwt.verify(
 
-        req.user = decode_token;
+            token,
+
+            JWT_SECRET_KEY
+        );
+
+        // attach user
+        req.user = decodedToken;
 
         next();
-        
-    }catch(error){
-        return res.status(500).json({error:"Internal Server Error"});
-    }
 
-}
+    } catch (error) {
+
+        return res.status(401).json({
+            success: false,
+            message: "Invalid or expired token"
+        });
+    }
+};
+
 
 const refresh_token = (data)=>{
     try{
