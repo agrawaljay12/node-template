@@ -54,7 +54,7 @@ const verifytoken = (req, res, next) => {
 
         // extract token
         const token = authHeader.split(" ")[1];
-        console.log(token);
+        // console.log(token);
 
         // verify token
         const decodedToken = jwt.verify(
