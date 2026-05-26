@@ -27,17 +27,21 @@ import {verifytoken} from "./auth.js";
 //    const check_role =(req,res,next)=>{
 
 //         try{
-//             const token = req.headers.authorization.startsWith("Bearer");
+//             const authheader = req.headers.authorization;
 
-//             if(!token){
-//                 return res.status(401).json({error:"Access denied"});
+//             if(!authheader || !authheader.startsWith("Bearer ")){
+//                 return res.status(401).json({error:"No token is provided"});
 //             }
 
-//             const current_user = verifytoken(token);
+//             const accesstoken = authheader.split(" ")[1];
+
+//             const current_user = verifytoken(accesstoken);
 
 //             if(!current_user){
 //                 return res.status(403).json({error:"Invalid or Missing token"});
 //             }
+
+//             req.user = current_user;
 
 //             if(roles.includes(current_user.role)){
 //                 next();
@@ -46,13 +50,14 @@ import {verifytoken} from "./auth.js";
 //             }
 
 //         }catch(error){
+//             console.log(error);
 //             return res.status(500).json({error:"Internal Server Error"});
 //         }
 //     } 
 //     return check_role;
 // }
 
-const get_required_roles = (...roles) => {
+const get_required_roles = (roles=[]) => {
 
     return (req, res, next) => {
 

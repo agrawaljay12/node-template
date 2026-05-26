@@ -1,6 +1,5 @@
 import user from '../models/user.js';
 import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
 import {create_token,refresh_token} from "../middleware/auth.js"
 
 
@@ -8,9 +7,14 @@ import {create_token,refresh_token} from "../middleware/auth.js"
 const handleGetAllUsers = async (req, res) => {
     try {
         const users = await user.find({});
-        return res.json(users);
+
+        return res.status(200).json({
+            message:"all users fetched",
+            data:users
+        });
+
     } catch (error) {
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({message:error.message});
     }
 }
 // delete user by id
@@ -29,10 +33,13 @@ const handleDeleteUserById = async(req,res) =>{
 
         const result  = await user.findByIdAndDelete(id);
 
-        return res.json({message: "User deleted successfully", result});
+        return res.json({
+            message: "User deleted successfully", 
+            data:result
+        });
     }
     catch (error) {
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({message:error.message});
     }
 }
 // create user 
@@ -65,10 +72,13 @@ const handleCreateUser = async (req,res)=>{
             role:"user"
     
         });
-        return res.status(201).json({"User created successfully": result}); 
+        return res.status(201).json({
+            message:"User created successfully",
+            data:result
+        }); 
     }
     catch(error){
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({message:error.message});
 
     }
 }
@@ -107,23 +117,26 @@ const handlelogin = async (req,res)=>{
             role:existuser.role
         }
 
-        // generate the token 
+        // generate and refresh the token 
         const access_token = create_token(token_data);
-        const token = refresh_token(token_data);
+        // const token = refresh_token(token_data);
+
+        // // store the refresh Token
+        // token_data.push(token);
+        // await token_data.save();
         
         // return the payload token
         return res.status(200).json({
             message:"user logged in",
             data:{
               access_token:access_token,
-              refresh_token: token,
               result:token_data,
               token_type:"Bearer"
             } 
         });
 
-    }catch{
-        return res.status(500).json({error:"Internal Server Error"});
+    }catch(error){
+        return res.status(500).json({message:error.message});
     }
 }
 
@@ -159,7 +172,7 @@ const handleUpdateUserById = async (req,res) =>{
 
   }   
   catch (error) {
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({message:error.message});
     }
 }
 
@@ -183,7 +196,7 @@ const handleGetUserById = async (req,res) =>{
         });
     }
     catch (error) {
-        return res.status(500).json({ error: "Internal Server Error" });
+        return res.status(500).json({message:error.message});
     }   
 }
 export{handleGetAllUsers ,handleDeleteUserById,handleCreateUser ,handleUpdateUserById,handleGetUserById, handlelogin};

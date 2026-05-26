@@ -8,7 +8,7 @@ import { verifytoken } from '../../../middleware/auth.js';
 // URL:http://localhost:8000/api/v1/auth/fetch_all
 // Method:get
 // description:fetch all user
-router.get('/fetch_all', verifytoken,get_required_roles("admin"),handleGetAllUsers);
+router.get('/fetch_all', verifytoken,get_required_roles(["admin"]),handleGetAllUsers);
 
 // URL:http://localhost:8000/api/v1/auth/delete/:id
 // Method:delete

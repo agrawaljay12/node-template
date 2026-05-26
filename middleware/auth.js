@@ -48,12 +48,13 @@ const verifytoken = (req, res, next) => {
 
             return res.status(401).json({
                 success: false,
-                message: "Access denied || Invalid token"
+                message: "No token is provided"
             });
         }
 
         // extract token
         const token = authHeader.split(" ")[1];
+        console.log(token);
 
         // verify token
         const decodedToken = jwt.verify(
